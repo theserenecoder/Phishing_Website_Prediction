@@ -1,0 +1,15 @@
+LICENCE
+README.md
+setup.py
+networksecurity/__init__.py
+networksecurity/components/__init__.py
+networksecurity/constant/__init__.py
+networksecurity/entity/__init__.py
+networksecurity/exception/__init__.py
+networksecurity/logger/__init__.py
+networksecurity/pipeline/__init__.py
+networksecurity/utils/__init__.py
+phishingwebsiteprediction.egg-info/PKG-INFO
+phishingwebsiteprediction.egg-info/SOURCES.txt
+phishingwebsiteprediction.egg-info/dependency_links.txt
+phishingwebsiteprediction.egg-info/top_level.txt
