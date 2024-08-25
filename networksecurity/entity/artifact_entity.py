@@ -2,7 +2,10 @@ from dataclasses import dataclass
 
 @dataclass
 class DataIngestionArtifact:
-    pass
+    ## train file path attribute
+    train_file_path: str
+    ## test file path attribute
+    test_file_path: str
 
 @dataclass
 class DataValidationArtifact:
