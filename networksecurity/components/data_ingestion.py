@@ -48,7 +48,7 @@ class DataIngestion:
                 
             ## replacing all na as nan
             df.replace({"na":np.nan}, inplace=True)
-            
+
             ## returning the dataframe
             return df
             

@@ -44,7 +44,7 @@ class TrainingPipeline:
             ## object of class data ingestion
             data_ingestion_obj = DataIngestion(data_ingestion_config=self.data_ingestion_config)
             ## calling method initiate_data_ingestion to start the data ingestion process
-            data_ingestion_artifact= data_ingestion_obj.initiate_data_ingestion
+            data_ingestion_artifact= data_ingestion_obj.initiate_data_ingestion()
             logging.info(f"Data ingestion process completed and artifact: {data_ingestion_artifact}")
           
             return data_ingestion_artifact
@@ -87,6 +87,5 @@ class TrainingPipeline:
             data_ingestion_artifact = self.start_data_ingestion()
             print(data_ingestion_artifact)
             
-            data_validation_artifact = self.start_data_validation()
         except Exception as e:
             raise NetworkSecurityException(e,sys)

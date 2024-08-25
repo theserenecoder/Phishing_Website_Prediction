@@ -2,6 +2,11 @@ from datetime import datetime
 import os
 from networksecurity.constant import training_pipeline
 
+print(training_pipeline.PIPELINE_NAME)
+print(training_pipeline.ARTIFACT_DIR)
+print(training_pipeline.DATA_INGESTION_DATABASE_NAME)
+print(training_pipeline.DATA_INGESTION_COLLECTION_NAME)
+
 class TrainingPipelineConfig:
     def __init__(self, timestamp=datetime.now()):
         ## creating a timestamp in format month/day/year/hour/min/sec
