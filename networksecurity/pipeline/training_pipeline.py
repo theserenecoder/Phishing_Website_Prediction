@@ -52,9 +52,19 @@ class TrainingPipeline:
         except Exception as e:
             raise NetworkSecurityException(e,sys)
         
-    def start_data_validation(self):
+    def start_data_validation(self, data_ingestion_artifact:DataIngestionArtifact):
         try:
-            pass
+            logging.info("Starting data validation process")
+            
+            ## creating an instance variable of class Training pipeline and holds an object of class DataIngestionConfig
+            data_validation_config = DataValidationConfig(data_validation_config = self.training_pipeline_config)
+            ## object of class Data Validation
+            data_validation_obj= DataValidation(data_validation_config=data_validation_config, data_ingestion_artifact =data_ingestion_artifact)
+            ## calling method initiate_data_validation to start the data validation process
+            data_validation_artifact = data_validation_obj.initiate_data_validation()
+            
+            logging.info("Data validation process completed and artifact: {data_validation_artifact}")
+            
         except Exception as e:
             raise NetworkSecurityException(e,sys)
         
@@ -86,6 +96,9 @@ class TrainingPipeline:
         try:
             data_ingestion_artifact = self.start_data_ingestion()
             print(data_ingestion_artifact)
+            
+            data_validation_aritfact = self.start_data_validation()
+            print(data_validation_aritfact)
             
         except Exception as e:
             raise NetworkSecurityException(e,sys)
