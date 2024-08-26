@@ -27,6 +27,7 @@ class DataIngestion:
         
     def export_collection_as_dataframe(self):
         try:
+            logging.info("Process to import data from MongoDB started")
             ## getting mongodb database name
             database_name = self.data_ingestion_config.database_name
             
@@ -35,12 +36,14 @@ class DataIngestion:
             
             ## creating a connection with mongodb
             self.mongo_client = pymongo.MongoClient(MONGO_DB_URL)
+            logging.info("MongoDB client created")
             
             ## accessing the collection from mongodb
             collection = self.mongo_client[database_name][collection_name]
             
             ## converting the documents into dataframe
             df = pd.DataFrame(list(collection.find()))
+            logging.info("Dataset read as a Dataframe")
             
             ## dropping the _id column from our dataframe
             if "_id" in df.columns.to_list():
@@ -66,6 +69,7 @@ class DataIngestion:
             
             ## saving the raw file in csv format
             dataframe.to_csv(feature_store_file_path,index=False,header=True)
+            logging.info("Feature store file saved as an artifact")
             
             ## returning the dataframe
             return dataframe
@@ -77,6 +81,7 @@ class DataIngestion:
         try:
             ## splitting the data in train and test set
             train_set, test_set = train_test_split(dataframe, test_size=self.data_ingestion_config.train_test_split_ratio)
+            logging.info("Train test split completed")
             
             ## creating a directory to save the train set file
             dir_path_train = os.path.dirname(self.data_ingestion_config.training_file_path)
@@ -84,6 +89,7 @@ class DataIngestion:
             
             ## saving the train file in csv format
             train_set.to_csv(self.data_ingestion_config.training_file_path, index = False, header = True)
+            logging.info("Train file saved as an artifact")
             
             ## creating a directory to save the test set file
             dir_path_test = os.path.dirname(self.data_ingestion_config.testing_file_path)
@@ -91,6 +97,7 @@ class DataIngestion:
             
             ## saving the train file in csv format
             test_set.to_csv(self.data_ingestion_config.testing_file_path)
+            logging.info("Test file saved as an artifact")
             
             return(
                 self.data_ingestion_config.training_file_path,
@@ -103,6 +110,7 @@ class DataIngestion:
         
     def initiate_data_ingestion(self):
         try:
+            logging.info("Data ingestion process started")
             ## calling method to get data
             dataframe = self.export_collection_as_dataframe()
             
@@ -113,6 +121,7 @@ class DataIngestion:
             train_set_path, test_set_path= self.split_data_as_train_test(dataframe)
             
             data_ingestion_artifact = DataIngestionArtifact(train_file_path = train_set_path, test_file_path = test_set_path)
+            logging.info("Data ingestion completed")
             
             return data_ingestion_artifact
             
