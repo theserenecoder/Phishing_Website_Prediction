@@ -4,8 +4,6 @@ from networksecurity.constant import training_pipeline
 
 print(training_pipeline.PIPELINE_NAME)
 print(training_pipeline.ARTIFACT_DIR)
-print(training_pipeline.DATA_INGESTION_DATABASE_NAME)
-print(training_pipeline.DATA_INGESTION_COLLECTION_NAME)
 
 class TrainingPipelineConfig:
     def __init__(self, timestamp=datetime.now()):
@@ -23,37 +21,55 @@ class TrainingPipelineConfig:
 class DataIngestionConfig:
     def __init__(self, training_pipeline_config:TrainingPipelineConfig):
         ## data ingestion directory name
-        self.data_ingestion_dir = os.path.join(training_pipeline_config.artifact_dir,
+        self.data_ingestion_dir: str = os.path.join(training_pipeline_config.artifact_dir,
                                                training_pipeline.DATA_INGESTION_DIR_NAME)
         
         ## data ingestion feature store file  path
-        self.feature_store_file_path=os.path.join(self.data_ingestion_dir, 
+        self.feature_store_file_path: str =os.path.join(self.data_ingestion_dir, 
                                             training_pipeline.DATA_INGESTION_FEATURE_STORE_DIR,
                                             training_pipeline.FILE_NAME)
         
         ## data ingestion training file path
-        self.training_file_path = os.path.join(self.data_ingestion_dir,
+        self.training_file_path: str = os.path.join(self.data_ingestion_dir,
                                                training_pipeline.DATA_INGESTION_INGESTED_DIR,
                                                training_pipeline.TRAIN_FILE_NAME)
         
         ## data ingestion test file path
-        self.testing_file_path = os.path.join(self.data_ingestion_dir,
+        self.testing_file_path: str = os.path.join(self.data_ingestion_dir,
                                               training_pipeline.DATA_INGESTION_INGESTED_DIR,
                                               training_pipeline.TEST_FILE_NAME)
         
         ## MongoDB database name
-        self.database_name = training_pipeline.DATA_INGESTION_DATABASE_NAME
+        self.database_name: str = training_pipeline.DATA_INGESTION_DATABASE_NAME
         
         ## MongoDB collection name
-        self.collection_name = training_pipeline.DATA_INGESTION_COLLECTION_NAME
+        self.collection_name:str = training_pipeline.DATA_INGESTION_COLLECTION_NAME
         
         ## train test split ratio
-        self.train_test_split_ratio = training_pipeline.DATA_INGESTION_TRAIN_TEST_SPLIT_RATIO
+        self.train_test_split_ratio: float = training_pipeline.DATA_INGESTION_TRAIN_TEST_SPLIT_RATIO
     
 class DataValidationConfig:
     
-    def __init__(self,training_pipeline_config):
-        pass
+    def __init__(self,training_pipeline_config:TrainingPipelineConfig):
+        ## data validation directory name
+        self.data_validation_dir: str = os.path.join(training_pipeline_config.artifact_dir, training_pipeline.DATA_VALIDATION_DIR_NAME)
+        
+        ## data validation valid data directory name
+        self.valid_data_dir: str = os.path.join(self.data_validation_dir, training_pipeline.DATA_VALIDATION_VALID_DIR)
+        ## data validation invalid data directory name
+        self.invalid_data_dir:str = os.path.join(self.data_validation_dir, training_pipeline.DATA_VALIDATION_INVALID_DIR)
+        ## data validation valid train file path
+        self.valid_train_file_path = os.path.join(self.valid_data_dir, training_pipeline.TRAIN_FILE_NAME)
+        ## data validation valid test file path
+        self.valid_test_file_path = os.path.join(self.valid_data_dir, training_pipeline.TEST_FILE_NAME)
+        ## data validation invalid train file path
+        self.invalid_train_file_path = os.path.join(self.invalid_data_dir, training_pipeline.TRAIN_FILE_NAME)
+        ## data validation invalid test file path
+        self.invalid_test_file_path = os.path.join(self.invalid_data_dir,training_pipeline.TEST_FILE_NAME)
+        ## data validation drift report file path
+        self.drift_report_file_path = os.path.join(self.data_validation_dir,
+                                                   training_pipeline.DATA_VALIDATION_DRIFT_REPORT_DIR,
+                                                   training_pipeline.DATA_VALIDATION_DRIFT_REPORT_FILE_NAME)
         
         
 class DataTransformationConfig:
