@@ -62,7 +62,7 @@ class DataValidationConfig:
         self.valid_train_file_path = os.path.join(self.valid_data_dir, training_pipeline.TRAIN_FILE_NAME)
         ## data validation valid test file path
         self.valid_test_file_path = os.path.join(self.valid_data_dir, training_pipeline.TEST_FILE_NAME)
-        ## data validation invalid train file path
+        ## data validation invalid train file path 
         self.invalid_train_file_path = os.path.join(self.invalid_data_dir, training_pipeline.TRAIN_FILE_NAME)
         ## data validation invalid test file path
         self.invalid_test_file_path = os.path.join(self.invalid_data_dir,training_pipeline.TEST_FILE_NAME)
