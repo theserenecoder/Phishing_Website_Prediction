@@ -82,7 +82,6 @@ class DataIngestion:
             ## splitting the data in train and test set
             train_set, test_set = train_test_split(dataframe, test_size=self.data_ingestion_config.train_test_split_ratio)
             logging.info("Train test split completed")
-            print(train_set.shape, test_set.shape)
             
             ## creating a directory to save the train set file
             dir_path_train = os.path.dirname(self.data_ingestion_config.training_file_path)

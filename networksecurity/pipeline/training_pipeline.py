@@ -63,14 +63,28 @@ class TrainingPipeline:
             ## calling method initiate_data_validation to start the data validation process
             data_validation_artifact = data_validation_obj.initiate_data_validation()
             
-            logging.info("Data validation process completed and artifact: {data_validation_artifact}")
+            logging.info(f"Data validation process completed and artifact: {data_validation_artifact}")
             
+            return data_validation_artifact
+               
         except Exception as e:
             raise NetworkSecurityException(e,sys)
         
-    def start_data_transfromation(self):
+    def start_data_transfromation(self, data_validation_artifact:DataValidationArtifact):
         try:
-            pass
+            logging.info("Data transformation process started")
+            
+            data_transformation_config = DataTransformationConfig(training_pipeline_config= self.training_pipeline_config)
+            
+            data_transformation_obj = DataTransformation(data_transformation_config = data_transformation_config, 
+                                                         data_validation_artifact = data_validation_artifact)
+            
+            data_transfrmation_artifact = data_transformation_obj.initiate_data_transformation()
+            
+            logging.info(f"Data validation process completed and artifact: {data_transfrmation_artifact}")
+            
+            return data_transfrmation_artifact
+            
         except Exception as e:
             raise NetworkSecurityException(e,sys)
         
@@ -95,10 +109,12 @@ class TrainingPipeline:
     def run_pipeline(self):
         try:
             data_ingestion_artifact = self.start_data_ingestion()
-            print(data_ingestion_artifact)
+            #print(data_ingestion_artifact)
             
             data_validation_aritfact = self.start_data_validation(data_ingestion_artifact)
-            print(data_validation_aritfact)
+            #print(data_validation_aritfact)
+            
+            data_transformation_artifact = self.start_data_transfromation(data_validation_aritfact=data_validation_aritfact)
             
         except Exception as e:
             raise NetworkSecurityException(e,sys)
