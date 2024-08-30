@@ -1,3 +1,4 @@
+from networksecurity.constant.training_pipeline import SCHEMA_FILE_PATH
 import os
 import sys
 import pandas as pd
@@ -6,9 +7,9 @@ from networksecurity.exception.exception import NetworkSecurityException
 from networksecurity.logger.logger import logging
 from networksecurity.entity.artifact_entity import DataIngestionArtifact, DataValidationArtifact
 from networksecurity.entity.config_entity import DataValidationConfig
-from networksecurity.pipeline.training_pipeline import SCHEMA_FILE_PATH
+
 from scipy.stats import ks_2samp
-from networksecurity.utils.main_utils import read_yaml_file, write_yaml_file
+from networksecurity.utils.main_utils.utils import read_yaml_file, write_yaml_file
 
 class DataValidation:
     def __init__(self, data_ingestion_artifact:DataIngestionArtifact,
@@ -67,7 +68,7 @@ class DataValidation:
         except Exception as e:
             raise NetworkSecurityException(e,sys)
         
-    def detect_dataset_drift(self, base_df, current_df, threshold=0.5)->bool:
+    def detect_dataset_drift(self, base_df, current_df, threshold=0.05)->bool:
         """Method to check if both the dataframes are drawn from the same distribution"""
         try:
             ## set status default to True, this will be return and will tell us therewas any drift between the 2 dataframes
@@ -81,7 +82,7 @@ class DataValidation:
                 ## run ks test for goodness of fit test
                 good_fit_test = ks_2samp(d1,d2)
                 ## check if pvalue is less than threshold then reject null hypothesis
-                if ks_2samp.pvalue <= threshold:
+                if good_fit_test.pvalue <= threshold:
                     is_found = True
                     status = False
                 ## else we fail to reject null hypothesis
@@ -89,17 +90,17 @@ class DataValidation:
                     is_found = False
                 ## update the dictionary with pvalue and drift status
                 report.update({col:{"p_value":float(good_fit_test.pvalue),
-                                    "drift_status":is_found}})
+                                    "drift_status":is_found}
+                })
                 
-                drift_report_file_path=self.data_validation_config.drift_report_file_path
-                
-                ## create directory
-                dir_path = os.path.dirname(drift_report_file_path)
-                os.makedirs(dir_path, exist_ok=True)
-                ## write content on yaml file
-                write_yaml_file(file_path=drift_report_file_path, content = report)
-                
-                return status
+            drift_report_file_path=self.data_validation_config.drift_report_file_path
+            
+            ## create directory
+            dir_path = os.path.dirname(drift_report_file_path)
+            os.makedirs(dir_path, exist_ok=True)
+            ## write content on yaml file
+            write_yaml_file(file_path=drift_report_file_path, content = report,)
+            return status
                 
         except Exception as e:
             raise NetworkSecurityException(e,sys)
@@ -119,47 +120,56 @@ class DataValidation:
             train_status = self.validate_number_of_columns(train_dataframe)
             if not train_status:
                 ## if status is false set error message
-                error_message = f"Train dataframe does not contain all columns."
-                logging.error(error_message)
+                logging.error("Train dataframe does not contain all columns.")
             test_status = self.validate_number_of_columns(test_dataframe)
             if not test_status:
-                error_message = f"Test dataframe does not contain all columns."
-                logging.error(error_message)
+                logging.error("Test dataframe does not contain all columns.")
             # if len(error_message)>0:
             #    raise Exception(error_message)
                 
             ## check datadrift status
             drift_status = self.detect_dataset_drift(train_dataframe, test_dataframe)
+            if not drift_status:
+                logging.error("Data drift detected between train and test data")
+               
+            ## initialize path as none
+            valid_train_file_path = None
+            valid_test_file_path = None
+            invalid_train_file_path = None
+            invalid_test_file_path = None
             
             if train_status and test_status and drift_status:
-                ## make valid directory
-                dir_path = self.data_validation_config.valid_train_file_path
+                ## All validation passed saved to valid directory
+                valid_train_file_path = self.data_validation_config.valid_train_file_path
+                valid_test_file_path = self.data_validation_config.valid_test_file_path
+                dir_path = os.path.dirname(self.data_validation_config.valid_train_file_path)
                 os.makedirs(dir_path, exist_ok=True)
-                ## save train dataframe
-                train_dataframe.to_csv(self.data_validation_config.valid_train_file_path, header=True, index=False)
-                logging.info("Train dataframe validated")
-                ## save test dataframe
-                test_dataframe.to_csv(self.data_validation_config.valid_test_file_path, header=True, index=False)
-                logging.info("Test dataframe validated")
+                train_dataframe.to_csv(valid_train_file_path, index=False, header=True)
+                test_dataframe.to_csv(valid_test_file_path, index=False, header=True)
+                logging.info("Train and Test dataframe validated and saved to valid directory")
             else:
-                logging.info("Dataset failed validation")
-                ## make invalid directory
+                ## at least one validation failed, saved to invalid directory
                 dir_path = self.data_validation_config.invalid_train_file_path
                 os.makedirs(dir_path, exist_ok=True)
-                ## save train dataframe
-                train_dataframe.to_csv(self.data_validation_config.invalid_train_file_path, header=True, index=False)
-                ## save test dataframe
-                test_dataframe.to_csv(self.data_validation_config.invalid_test_file_path,header=True,index=False)
+                invalid_train_file_path = self.data_validation_config.invalid_train_file_path
+                invalid_test_file_path = self.data_validation_config.invalid_test_file_path
+                train_dataframe.to_csv(invalid_train_file_path, header=True, index=False)
+                test_dataframe.to_csv(invalid_test_file_path,header=True,index=False)
+                logging.info("Train and test dataframes validation failed and saved to invalid directory")
+                
+ 
                 
             data_validation_artifact = DataValidationArtifact(
                 validation_status=drift_status,
-                valid_train_file_path=self.data_validation_config.valid_train_file_path,
-                valid_test_file_path=self.data_validation_config.valid_test_file_path,
-                invalid_train_file_path=self.data_validation_config.invalid_train_file_path,
-                invalid_test_file_path=self.data_validation_config.invalid_test_file_path,
+                valid_train_file_path=valid_train_file_path,
+                valid_test_file_path=valid_test_file_path,
+                invalid_train_file_path=invalid_train_file_path,
+                invalid_test_file_path=invalid_test_file_path,
                 drift_report_file_path=self.data_validation_config.drift_report_file_path
             )
             
+            
+
             logging.info(f"Data validation artifact : {data_validation_artifact}")
             
             return data_validation_artifact

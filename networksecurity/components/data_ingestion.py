@@ -82,6 +82,7 @@ class DataIngestion:
             ## splitting the data in train and test set
             train_set, test_set = train_test_split(dataframe, test_size=self.data_ingestion_config.train_test_split_ratio)
             logging.info("Train test split completed")
+            print(train_set.shape, test_set.shape)
             
             ## creating a directory to save the train set file
             dir_path_train = os.path.dirname(self.data_ingestion_config.training_file_path)
@@ -91,12 +92,9 @@ class DataIngestion:
             train_set.to_csv(self.data_ingestion_config.training_file_path, index = False, header = True)
             logging.info("Train file saved as an artifact")
             
-            ## creating a directory to save the test set file
-            dir_path_test = os.path.dirname(self.data_ingestion_config.testing_file_path)
-            os.makedirs(dir_path_test,exist_ok=True)
             
             ## saving the train file in csv format
-            test_set.to_csv(self.data_ingestion_config.testing_file_path)
+            test_set.to_csv(self.data_ingestion_config.testing_file_path, index = False, header = True)
             logging.info("Test file saved as an artifact")
             
             return(

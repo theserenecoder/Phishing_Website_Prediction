@@ -57,7 +57,7 @@ class TrainingPipeline:
             logging.info("Starting data validation process")
             
             ## creating an instance variable of class Training pipeline and holds an object of class DataIngestionConfig
-            data_validation_config = DataValidationConfig(data_validation_config = self.training_pipeline_config)
+            data_validation_config = DataValidationConfig(training_pipeline_config= self.training_pipeline_config)
             ## object of class Data Validation
             data_validation_obj= DataValidation(data_validation_config=data_validation_config, data_ingestion_artifact =data_ingestion_artifact)
             ## calling method initiate_data_validation to start the data validation process
@@ -97,7 +97,7 @@ class TrainingPipeline:
             data_ingestion_artifact = self.start_data_ingestion()
             print(data_ingestion_artifact)
             
-            data_validation_aritfact = self.start_data_validation()
+            data_validation_aritfact = self.start_data_validation(data_ingestion_artifact)
             print(data_validation_aritfact)
             
         except Exception as e:
