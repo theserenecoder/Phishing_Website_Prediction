@@ -31,7 +31,7 @@ def write_yaml_file(file_path:str, content:object, replace:bool = False)->None:
     except Exception as e:
         raise NetworkSecurityException(e,sys)
     
-def save_numpy_array_data(file_path:str, arr: np.array) -> None:
+def save_numpy_array(file_path:str, arr: np.array) -> None:
     try:
         ## save numpy array data to file
         dir_name = os.path.dirname(file_path)
@@ -41,7 +41,7 @@ def save_numpy_array_data(file_path:str, arr: np.array) -> None:
     except Exception as e:
         raise NetworkSecurityException(e,sys)
     
-def load_numpy_array_data(file_path: str):
+def load_numpy_array(file_path: str):
     try:
         ## load numpy array data from file
         with open(file_path) as file_obj:

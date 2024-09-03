@@ -50,7 +50,7 @@ class DataTransformation:
         try:
             logging.info("Entered the get_data_transfomer_object method of the DataTransformation class")
             
-            preprocessor = Pipeline([('imputer', KNNImputer(DATA_TRANSFORMATION_IMPUTER_PARAMS))])
+            preprocessor = Pipeline([('imputer', KNNImputer(**DATA_TRANSFORMATION_IMPUTER_PARAMS))])
             
             logging.info("Exited get_data_transfomer_object method of the DataTransformation class")
             
