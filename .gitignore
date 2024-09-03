@@ -3,3 +3,4 @@ venv
 logs
 phishingwebsiteprediction.egg-info
 Artifacts
+__pycache__
