@@ -79,11 +79,11 @@ class TrainingPipeline:
             data_transformation_obj = DataTransformation(data_transformation_config = data_transformation_config, 
                                                          data_validation_artifact = data_validation_artifact)
             
-            data_transfrmation_artifact = data_transformation_obj.initiate_data_transformation()
+            data_transformation_artifact = data_transformation_obj.initiate_data_transformation()
             
-            logging.info(f"Data validation process completed and artifact: {data_transfrmation_artifact}")
+            logging.info(f"Data validation process completed and artifact: {data_transformation_artifact}")
             
-            return data_transfrmation_artifact
+            return data_transformation_artifact
             
         except Exception as e:
             raise NetworkSecurityException(e,sys)
