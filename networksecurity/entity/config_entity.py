@@ -94,9 +94,20 @@ class DataTransformationConfig:
         
 
 class ModelTrainerConfig:
-    
-    def __init__(self):
-        pass
+    def __init__(self,training_pipeline_config: TrainingPipelineConfig):
+        ## model trainer directory name
+        self.model_trainer_dir = os.path.join(training_pipeline_config.artifact_dir, training_pipeline.MODEL_TRAINER_DIR_NAME)
+        
+        ## model path
+        self.trained_model_path = os.path.join(self.model_trainer_dir, 
+                                               training_pipeline.MODEL_TRAINER_TRAINED_MODEL_DIR, 
+                                               training_pipeline.MODEL_TRAINER_TRAINED_MODEL_NAME)
+        
+        ## model accuracy
+        self.expected_accuracy = training_pipeline.MODEL_TRAINER_EXPECTED_SCORE
+        
+        ## overfitting underfitting threshold
+        self.overfitting_underfitting_threshold = training_pipeline.MODEL_TRAINER_UNDERFITTING_OVERFITTING_SCORE
     
 class ModelEvaluationConfig:
     
