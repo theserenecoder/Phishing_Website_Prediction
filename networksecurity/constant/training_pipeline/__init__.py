@@ -53,3 +53,19 @@ DATA_TRANSFORMATION_IMPUTER_PARAMS: dict = {
 }
 DATA_TRANSFORMATION_TRAIN_FILE_PATH: str = "train.npy"
 DATA_TRANSFORMATION_TEST_FILE_PATH: str = "test.npy"
+
+"""
+Model Trainer related constant start with Model_Trainer var name
+"""
+MODEL_TRAINER_DIR_NAME: str = "model_trainer"
+MODEL_TRAINER_TRAINED_MODEL_DIR: str = "trained_model"
+MODEL_TRAINER_TRAINED_MODEL_NAME:str = "model.pkl"
+MODEL_TRAINER_EXPECTED_SCORE:float = 0.6
+MODEL_TRAINER_UNDERFITTING_OVERFITTING_SCORE: float = 0.5
+
+"""
+Model Evaluation related constant starts with Model_Evaluation var name
+"""
+MODEL_EVALUATION_DIR_NAME: str = "model_evaluation"
+MODEL_EVALUATION_MODEL_NAME: str = 'report.yaml'
+MODEL_EVALUATION_CHANGED_THRESHOLD_NAME: float = 0.02
