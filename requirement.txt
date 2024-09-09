@@ -9,5 +9,6 @@ dill
 pyyaml
 pickle
 seaborn
+xgboost
 
 -e .
