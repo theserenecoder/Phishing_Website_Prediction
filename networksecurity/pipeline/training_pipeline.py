@@ -90,7 +90,19 @@ class TrainingPipeline:
         
     def start_model_training(self, data_transformation_artifact: DataTransformationArtifact):
         try:
-            pass
+            logging.info("Model trainer process started")
+            
+            model_trainer_config = ModelTrainerConfig(training_pipeline_config= self.training_pipeline_config)
+            
+            model_trainer_obj = ModelTrainer(model_trainer_config=model_trainer_config,
+                                             data_transformation_artifact=data_transformation_artifact)
+            
+            model_trainer_artifact = model_trainer_obj.initiate_model_trainer()
+            
+            logging.info(f"Model trainer process completed and artifact: {model_trainer_artifact}")
+            
+            return model_trainer_artifact
+            
         except Exception as e:
             raise NetworkSecurityException(e,sys)
         
@@ -118,6 +130,7 @@ class TrainingPipeline:
             print(data_transformation_artifact)
             
             model_trainer_artifact = self.start_model_training(data_transformation_artifact=data_transformation_artifact)
+            print(model_trainer_artifact)
             
         except Exception as e:
             raise NetworkSecurityException(e,sys)
