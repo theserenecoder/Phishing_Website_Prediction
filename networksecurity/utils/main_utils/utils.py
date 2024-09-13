@@ -44,7 +44,7 @@ def save_numpy_array(file_path:str, arr: np.array) -> None:
 def load_numpy_array(file_path: str):
     try:
         ## load numpy array data from file
-        with open(file_path) as file_obj:
+        with open(file_path,'rb') as file_obj:
             return np.load(file_obj)
     except Exception as e:
         raise NetworkSecurityException(e,sys)
@@ -62,11 +62,12 @@ def save_object(file_path:str, obj:object) -> None:
     
 def load_object(file_path:str):
     try:
+        logging.info('Inside load object')
         ## raise error if pickle file doesn't exists
         if not os.path.exists(file_path):
             raise NetworkSecurityException(f"The file: {file_path} is not exists")
         ## load pickle object
-        with open(file_path) as file_obj:
+        with open(file_path,'rb') as file_obj:
             return pickle.load(file_obj)
             
     except Exception as e:
