@@ -101,6 +101,19 @@ class ModelTrainer:
             print(f'Best Model Found, Model Name : {best_model_name}, F1 Score : {best_model_test_score}')
             print('\n===============================================================================')
             
+            preprocessor = load_object(file_path=self.data_transformation_artifact.transformed_object_file_path)
+            
+            model_dir_path = os.path.dirname(self.model_trainer_config.trained_model_path)
+            os.makedirs(model_dir_path, exist_ok=True)
+            Network_Model = NetworkModel(preprocessor=preprocessor, model=models[best_model_name])
+            save_object(self.model_trainer_config.trained_model_path,obj=NetworkModel)
+            
+            ## Model Trainer Artifact
+            model_trainer_artifact = ModelTrainerArtifact(trained_model_file_path=self.model_trainer_config.trained_model_path,
+                                                          train_metric_artifact=model_report['train_score'],
+                                                          test_metric_artifact= model_report['test_score'])
+            
+            logging.info("Model training completed")
             
         except Exception as e:
             raise NetworkSecurityException(e,sys)
