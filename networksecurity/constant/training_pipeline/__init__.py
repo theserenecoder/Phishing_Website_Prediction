@@ -67,8 +67,8 @@ MODEL_TRAINER_UNDERFITTING_OVERFITTING_SCORE: float = 0.5
 Model Evaluation related constant starts with Model_Evaluation var name
 """
 MODEL_EVALUATION_DIR_NAME: str = "model_evaluation"
-MODEL_EVALUATION_MODEL_NAME: str = 'report.yaml'
-MODEL_EVALUATION_CHANGED_THRESHOLD_NAME: float = 0.02
+MODEL_EVALUATION_REPORT_NAME: str = 'report.yaml'
+MODEL_EVALUATION_CHANGED_THRESHOLD_VALUE: float = 0.02
 
 """
 Model Pusher related constant stats with Model_Pusher var name

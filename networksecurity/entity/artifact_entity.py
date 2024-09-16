@@ -37,7 +37,12 @@ class ModelTrainerArtifact:
 
 @dataclass
 class ModelEvaluationArtifact:
-    pass
+    is_model_accespted: bool
+    improved_accuracy: float
+    best_model_path: str
+    trained_model_path: str
+    best_model_metric_artifact: ClassificationMetricArtifact
+    trained_model_metric_artifact: ClassificationMetricArtifact
 
 @dataclass
 class ModelPusherArtifact:
