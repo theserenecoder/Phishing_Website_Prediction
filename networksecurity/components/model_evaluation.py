@@ -12,11 +12,11 @@ import pandas as pd
 class ModelEvaluation:
     def __init__(self,model_evaluation_config:ModelEvaluationConfig,
                  model_trainer_artifact: ModelTrainerArtifact,
-                 data_validation_artifat: DataValidationArtifact):
+                 data_validation_artifact: DataValidationArtifact):
         try:
             self.model_evaluation_config = model_evaluation_config
             self.model_trainer_artifact = model_trainer_artifact
-            self.data_validation_artifact = data_validation_artifat
+            self.data_validation_artifact = data_validation_artifact
         except Exception as e:
             raise NetworkSecurityException(e,sys)
         
