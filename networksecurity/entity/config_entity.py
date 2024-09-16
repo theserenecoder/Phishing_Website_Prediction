@@ -110,7 +110,7 @@ class ModelTrainerConfig:
         self.overfitting_underfitting_threshold = training_pipeline.MODEL_TRAINER_UNDERFITTING_OVERFITTING_SCORE
     
 class ModelEvaluationConfig:
-    def __init__(self, training_pipeline_config:TrainingPipelineConfig)
+    def __init__(self, training_pipeline_config:TrainingPipelineConfig):
         ## model directory name
         self.model_eval_dir = os.path.join(training_pipeline_config.artifact_dir, training_pipeline.MODEL_EVALUATION_DIR_NAME)
         
