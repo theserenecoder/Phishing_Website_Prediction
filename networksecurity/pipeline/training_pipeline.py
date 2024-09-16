@@ -119,6 +119,7 @@ class TrainingPipeline:
             
             ## model evaluation artifact
             model_evaluation_artifact = model_evaluation_obj.initiate_model_evaluation()
+            logging.info(f"Model pusher process completed and artifact: {model_evaluation_artifact}")
                        
             return model_evaluation_artifact
             
