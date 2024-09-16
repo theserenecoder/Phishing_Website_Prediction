@@ -125,9 +125,18 @@ class TrainingPipeline:
         except Exception as e:
             raise NetworkSecurityException(e,sys)
         
-    def start_model_pusher(self):
+    def start_model_pusher(self,model_evaluation_artifact: ModelEvaluationArtifact):
         try:
-            pass
+            logging.info("Model pusher process started")
+            
+            model_pusher_config = ModelPusherConfig(self.training_pipeline_config)
+            
+            model_pusher_obj = ModelPusher(model_pusher_config=model_pusher_config,
+                                           model_evaluation_artifact=model_evaluation_artifact)
+            model_pusher_artifact = model_pusher_obj.initiate_model_pusher()
+            
+            return model_pusher_artifact
+        
         except Exception as e:
             raise NetworkSecurityException(e,sys)
         
@@ -147,6 +156,9 @@ class TrainingPipeline:
             
             model_evaluation_artifact = self.start_model_evaluation(model_trainer_artifact= model_trainer_artifact, 
                                                                     data_validation_artifact=data_validation_aritfact)
+            print(model_evaluation_artifact)
+            
+            model_pusher_artifact = self.start_model_pusher(model_evaluation_artifact=model_evaluation_artifact)
             print(model_evaluation_artifact)
             
         except Exception as e:

@@ -125,7 +125,7 @@ class ModelPusherConfig:
     def __init__(self, training_pipeline_config:TrainingPipelineConfig):
         ## model pusher directory name
         self.model_pusher_dir = os.path.join(training_pipeline_config.artifact_dir, training_pipeline.MODEL_PUSHER_DIR_NAME)
-        ## model file path in artifact
+        ## artifact model file path 
         self.model_file_path = os.path.join(self.model_pusher_dir, training_pipeline.MODEL_FILE_NAME)
         timestamp = round(datetime.now().timestamp())
         ## saved model path
