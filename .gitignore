@@ -4,3 +4,5 @@ logs
 phishingwebsiteprediction.egg-info
 Artifacts
 __pycache__
+.pyc
+

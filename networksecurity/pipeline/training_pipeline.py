@@ -130,7 +130,7 @@ class TrainingPipeline:
         try:
             logging.info("Model pusher process started")
             
-            model_pusher_config = ModelPusherConfig(self.training_pipeline_config)
+            model_pusher_config = ModelPusherConfig(training_pipeline_config=self.training_pipeline_config)
             
             model_pusher_obj = ModelPusher(model_pusher_config=model_pusher_config,
                                            model_evaluation_artifact=model_evaluation_artifact)
@@ -160,7 +160,7 @@ class TrainingPipeline:
             print(model_evaluation_artifact)
             
             model_pusher_artifact = self.start_model_pusher(model_evaluation_artifact=model_evaluation_artifact)
-            print(model_evaluation_artifact)
+            print(model_pusher_artifact)
             
         except Exception as e:
             raise NetworkSecurityException(e,sys)
