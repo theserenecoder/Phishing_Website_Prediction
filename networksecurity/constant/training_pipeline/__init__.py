@@ -73,5 +73,5 @@ MODEL_EVALUATION_CHANGED_THRESHOLD_VALUE: float = 0.02
 """
 Model Pusher related constant stats with Model_Pusher var name
 """
-MODEL_PUSHER_DIRECTORY_NAME: str = 'model_pusher'
+MODEL_PUSHER_DIR_NAME: str = 'model_pusher'
 MODEL_PUSHER_SAVED_MODEL_DIR: str = SAVED_MODEL_DIR
