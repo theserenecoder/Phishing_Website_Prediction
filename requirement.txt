@@ -10,5 +10,9 @@ pyyaml
 pickle
 seaborn
 xgboost
+fastapi
+uvicorn
+ipykernel
+apache-airflow
 
 -e .
