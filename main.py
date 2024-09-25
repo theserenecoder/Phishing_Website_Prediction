@@ -1,5 +1,11 @@
 import os
 import sys
+
+from dotenv import load_dotenv
+load_dotenv()
+mongo_db_url = os.getenv("MONGO_DB_URL")
+print(mongo_db_url)
+
 from networksecurity.logger.logger import logging
 from networksecurity.exception.exception import NetworkSecurityException
 

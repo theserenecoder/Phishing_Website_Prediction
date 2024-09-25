@@ -75,3 +75,10 @@ Model Pusher related constant stats with Model_Pusher var name
 """
 MODEL_PUSHER_DIR_NAME: str = 'model_pusher'
 MODEL_PUSHER_SAVED_MODEL_DIR: str = SAVED_MODEL_DIR
+
+"""
+AWS Bucket
+"""
+
+TRAINING_BUCKET_NAME = "phishingwebsitepredictor"
+PREDICTION_BUCKET_NAME = "networkdatasource"
