@@ -73,10 +73,10 @@ class ModelEvaluation:
             ## loading the model which was trained in model trainer component
             trained_model = load_object(trained_model_file_path)
             logging.info("Trained and test model loaded")
-            
+            print(trained_model)
             ## predicting from both the models
-            y_saved_pred = saved_model.predict(df)
-            y_trained_pred = trained_model.predict(df)
+            y_saved_pred = saved_model.data_predict(df)
+            y_trained_pred = trained_model.data_predict(df)
             
             ## getting the classification score metrics 
             saved_model_metric = get_classification_score(y_pred=y_saved_pred, y_actual=y_true)
