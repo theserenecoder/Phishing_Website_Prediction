@@ -184,6 +184,7 @@ class TrainingPipeline:
             TrainingPipeline.is_pipeline_running = False
             self.sync_artifact_dir_to_s3()
             self.sync_saved_model_to_s3()
+            logging.info("AWS Sync Completed")
             
         except Exception as e:
             self.sync_artifact_dir_to_s3()
